@@ -6,7 +6,7 @@ bird_frame=1
 bird_x = 200
 bird_y = 200
 bird_size=[40,30]
-bird_image=[cv2.imread(r'.\flappy_bird\Flappy-Bird1.png'),cv2.imread(r'.\flappy_bird\Flappy-Bird2.png')]# if not work, change the path to absolute path
+bird_image=[cv2.imread(r'Flappy-Bird1.png'),cv2.imread(r'Flappy-Bird2.png')]# if not work, change the path to absolute path
 bird_image[0] = cv2.resize(bird_image[0],(bird_size[0],bird_size[1]))
 bird_image[1] = cv2.resize(bird_image[1],(bird_size[0],bird_size[1]))
 
