@@ -24,15 +24,15 @@ def draw_pipe(img):
     global score
     height = img.shape[0]
     for pipe in pipes:
-        # draw upper pipes
-        # draw lowwer pipes
-        # move pipes
+        cv2.rectangle(img, (pipe[0], 0),(pipe[0]+pipe_width,pipe[1]),(88, 218,125 ),cv2.FILLED)
+        cv2.rectangle(img, (pipe[0], pipe[1]+pipe_gap),(pipe[0]+pipe_width,height),(88, 218,125 ),cv2.FILLED) 
+        pipe[0]-=speed+int(score*0.1)
         if(pipe[0]<0):
             pipe[0] = max(pipes[0][0],pipes[1][0],pipes[2][0])+350
             pipe[1] = random.randint(100,300) 
             pipe[2] = False
         if pipe[0]+pipe_width<bird_x and pipe[2]==False:
-            # rules : add score
+            score=score+1
             pipe[2]=True
 
 def draw_bird(img):
@@ -40,21 +40,19 @@ def draw_bird(img):
     faceCascade=cv2.CascadeClassifier(cv2.samples.findFile(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'))
     faceRect = faceCascade.detectMultiScale(gray_frame, 1.1, 6)
     for(x,y,w,h)in faceRect:
-        # cv2.rectangle(frame,(?,?),(?,?),(0,255,0),2)
-        cv2.rectangle(frame,(0,255,0),2) # mark the face
-        # set y cordinate of bird  
+        cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
+        bird_y = int(y+h/2)    
     img[bird_y:bird_y+bird_size[1],bird_x:bird_x+bird_size[0]]=bird_image[bird_frame]
     if bird_frame==0:
         bird_frame=1
     else:
         bird_frame=0
     for pipe in pipes:
-        # when will game over
-        if ():
+        if pipe[0]<bird_x+bird_size[0] and pipe[0]+pipe_width>bird_x and (bird_y<pipe[1] or bird_y+bird_size[1]>pipe_gap+pipe[1]):
             run=False
             break
 def game_over(img):
-    # draw last score player get
+    cv2.putText(img,"Your Score:"+str(score),(50,100),cv2.FONT_HERSHEY_SIMPLEX,1.5,(255,255,255),4)
     cv2.putText(img,"press q to quit the game",(50,200),cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,255),2)
     return 0
 
@@ -67,7 +65,7 @@ while True:
         if(run==True):
             draw_pipe(frame)
             draw_bird(frame)
-            # draw current score
+            cv2.putText(frame, str(score),(int(frame.shape[1]/2),100),cv2.FONT_HERSHEY_SIMPLEX,1.5,(255,255,255),4)
         else:
             game_over(frame)
         cv2.imshow('flappy bird',frame)
