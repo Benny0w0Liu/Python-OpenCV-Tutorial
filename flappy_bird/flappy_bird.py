@@ -37,8 +37,7 @@ def draw_pipe(img):
 
 def draw_bird(img):
     global run, bird_frame
-    faceCascade=cv2.CascadeClassifier(cv2.samples.findFile(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'))
-    faceRect = faceCascade.detectMultiScale(gray_frame, 1.1, 6)
+    # detact face
     for(x,y,w,h)in faceRect:
         # cv2.rectangle(frame,(?,?),(?,?),(0,255,0),2)
         cv2.rectangle(frame,(0,255,0),2) # mark the face
